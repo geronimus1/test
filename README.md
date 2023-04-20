@@ -1,4 +1,3 @@
-#Superheroes and Software Development. 20+ Best Practices for Logging (including C and C++ Specials)
 
 ![[DALL·E 2023-04-20 01.19.13 - Rich beutiful Superman sees debug logs.png]]
 
@@ -25,46 +24,61 @@ Logging is an essential part of software development that helps developers troub
 2. It is important to selectively enable logs that are relevant to the current runtime situation. For instance, during development, you may want to turn on all logs to aid in detecting any potential issues. During debugging, it is advisable to enable `DEBUG` and higher logs to provide a more detailed view of the program's execution. However, during production, it is best to limit the logs to `INFO` level or higher to reduce unnecessary clutter.
 
 3. Use consistent log format that includes at least the following: Time, log level, source file, source line, function, and message. One of recommended format is `[Time][Log level] - [File]:[Line] [Function] - [Text]`. This will help ensure clarity and consistency in your logs.
-> [!Example]
-> `[2023-04-19 12:34:56][DEBUG] - [main.cpp:23 main] - This is a debug message`
+
+```yaml
+[2023-04-19 12:34:56][DEBUG] - [main.cpp:23 main] - This is a debug message
+```
 
 4. For multithreaded/modular applications, consider adding the options `[Module][Thread]` to your log format. To make it more readable, understand cross-modules and cross-threads interactions.
-> [!Example]
-> `[2023-04-19 12:34:56][DEBUG][module01][thread01][main.cpp:23 main]This is a debug message`
+
+```yaml
+[2023-04-19 12:34:56][DEBUG][module01][thread01][main.cpp:23 main]This is a debug message
+```
 
 5. Use placeholders enclosed in square brackets `[]` to format your log messages and prevent misaunderstanding of variables (spaces, zeros, etc).
-> [!Example]
->  `[2023-04-19 12:34:56][DEBUG] - [main.cpp:23 main] - This is a debug message, user [user01], try count [3]`
+
+```yaml
+[2023-04-19 12:34:56][DEBUG] - [main.cpp:23 main] - This is a debug message, user [user01], count [3]
+```
 
 6. Add relevant context in your logs:
 	1.  Ensure to always add general context that is relevant to your application, such as User ID and Session ID/Transaction ID.
 	2.  Additionally, include more context information in your log messages, such as parameters in your own format. This will make it easier to understand the log messages.
-> [!Example]
-> `2023-04-19 12:34:56 #DEBUG #main.cpp:23 #main #user01 #session01 #Cannot open db [file.db] in mode [READ_WRITE], db error [14]`
+
+```yaml
+2023-04-19 12:34:56 #DEBUG #main.cpp:23 #main #user01 #session01 #Cannot open db [file.db] in mode [READ_WRITE], db err [14]
+```
 
 7. To provide better context understanding, consider including the name of the function that calls the current function.
-  > [!Example]
-  > `[2023-04-19 12:34:56][DEBUG] - [file.cpp:56 functionA functionThatCallsFunctionA] - user [user01] logged in`
+  
+```yaml
+[2023-04-19 12:34:56][DEBUG] - [file.cpp:56 functionA functionThatCallsFunctionA] - user [user01] logged in
+```
 
 8.  In order to provide better insight into crashes and errors, it is recommended to use call stack print in all cases where crashes occur, as well as in relevant error logs. This can help to identify the source of the problem more easily and provide developers with the information they need to fix the issue quickly.
-> [!Example]
-> `[2023-04-19 12:34:56][ERROR] - [main.cpp:23 main] - An error occurred: File not found\nCall stack: main.cpp:23 main\n file.cpp:56 functionA\n file.cpp:78 functionB`
+
+```yaml
+[2023-04-19 12:34:56][ERROR] - [main.cpp:23 main] - An error occurred: File not found\nCall stack: main.cpp:23 main\n file.cpp:56 functionA\n file.cpp:78 functionB
+```
 
 9. In order to enhance the comprehensibility and problem-solving capabilities of a program's control flow, it is highly advisable to implement DEBUG or TRACE logs at every switch point, such as function starts and ends, `if` statements, `switch cases`, and `return` statements. This practice enables you to track the direction of control flow in your code and quickly detect any potential errors or issues that arise during development. Additionally, you can select different log levels based on the switch point's importance and relevance to your code.
-> [!Example]
-> `[2023-04-19 12:34:56][DEBUG] - [file.cpp:56 functionA] - <Started>`
->
->`[2023-04-19 12:34:56][WARN] - [file.cpp:78 functionB] - If condition met`
+
+```yaml
+[2023-04-19 12:34:56][DEBUG] - [file.cpp:56 functionA] - [Started]
+[2023-04-19 12:34:56][WARN] - [file.cpp:78 functionB] - If condition met
+```
 
 10. To improve the organization and management of log messages, it is advisable to assign a unique identifier to each message. This will help distinguish one message from another and make it easier to track and analyze specific logs when needed.
-> [!Example]
-> `[LID:1234]`   
+
+```yaml
+[LID:1234]
+```
 
 11. Avoid logging sensitive information like passwords, credit card numbers, and social security numbers. Instead, use tokens or hashes to mask such data.
 
 P.S. How to get stack or function name that call current function in C++:
 - [Library Boost.Stacktrace](https://www.boost.org/doc/libs/master/doc/html/stacktrace.html)
--  [C++ - How to automatically generate a stacktrace when my program crashes - Stack Overflow](https://stackoverflow.com/questions/77005/how-to-automatically-generate-a-stacktrace-when-my-program-crashes)
+- [C++ - How to automatically generate a stacktrace when my program crashes - Stack Overflow](https://stackoverflow.com/questions/77005/how-to-automatically-generate-a-stacktrace-when-my-program-crashes)
 Here's a possible rewrite: 
 
 Additional information for getting the stack or function name that called the current function in C++: 
@@ -75,11 +89,15 @@ Additional information for getting the stack or function name that called the cu
 ## Log message format best practices 
 1. To ensure consistency and ease of understanding for all members of your development team and tools, use logs only in English and in UTF-8 encoding.
 2. Consider using a standard or structured log format that is both machine-readable and human-readable. While JSON is a good option for both, it may not be the best for human-reading due to its nesting. Avoid using XML as it is not optimal for automation tools and human-reading. An example of a JSON log format is:
-> [!Example]
->`{"timestamp": "2023-04-19 12:34:56", "level": "DEBUG", "message": "This is a debug message"}`   
+
+```json
+{"timestamp": "2023-04-19 12:34:56", "level": "DEBUG", "message": "This is a debug message"}
+```
 3. If you choose not to use JSON, avoid printing line breaks in log messages. Instead, replace them with special strings like `^M`, `\n`, etc. or remove them altogether. An example of a log message with line breaks replaced by special strings is:
-> [!Example]
->  `[2023-04-19 12:34:56][DEBUG] - [main.cpp:23 main] - xml [<xml>^M <field>^M field msg^M </field>^M</xml>]`
+
+```yaml
+[2023-04-19 12:34:56][DEBUG] - [main.cpp:23 main] - xml [<xml>^M <field>^M Field data^M </field>^M</xml>]
+```
 
 ## Log file organization best practice
 1. Implement log rotation to prevent log files from becoming excessively large. This ensures that your logs are easier to manage and analyze.
@@ -92,7 +110,7 @@ Additional information for getting the stack or function name that called the cu
 5. Avoid using string concatenation in log messages to optimize performance.
 6. Test your logs to ensure they are being generated and captured as expected. This includes testing for log levels, log format, and log content.
 
-## Log viewing and analisyng best practices
+## Log viewing and analyzing best practices
 1. Use good special tool for log reading. I think best tool for most non-distributed logs is [LogViewPlus](https://www.logviewplus.com/) (it is not ad, it is my opinion)
 2. Write a script in your log viewer that opens your code editor to the file and line where a log message was printed. This can help you quickly locate and fix issues.
 3. Use log aggregation tools to analyze logs from multiple sources. This can help you identify patterns and issues across your entire software ecosystem.
