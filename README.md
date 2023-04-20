@@ -25,19 +25,19 @@ Logging is an essential part of software development that helps developers troub
 
 3. Use consistent log format that includes at least the following: Time, log level, source file, source line, function, and message. One of recommended format is `[Time][Log level] - [File]:[Line] [Function] - [Text]`. This will help ensure clarity and consistency in your logs.
 
-```yaml
+```cpp
 [2023-04-19 12:34:56][DEBUG] - [main.cpp:23 main] - This is a debug message
 ```
 
 4. For multithreaded/modular applications, consider adding the options `[Module][Thread]` to your log format. To make it more readable, understand cross-modules and cross-threads interactions.
 
-```yaml
+```cpp
 [2023-04-19 12:34:56][DEBUG][module01][thread01][main.cpp:23 main]This is a debug message
 ```
 
 5. Use placeholders enclosed in square brackets `[]` to format your log messages and prevent misaunderstanding of variables (spaces, zeros, etc).
 
-```yaml
+```cpp
 [2023-04-19 12:34:56][DEBUG] - [main.cpp:23 main] - This is a debug message, user [user01], count [3]
 ```
 
@@ -45,32 +45,32 @@ Logging is an essential part of software development that helps developers troub
 	1.  Ensure to always add general context that is relevant to your application, such as User ID and Session ID/Transaction ID.
 	2.  Additionally, include more context information in your log messages, such as parameters in your own format. This will make it easier to understand the log messages.
 
-```yaml
+```cpp
 2023-04-19 12:34:56 #DEBUG #main.cpp:23 #main #user01 #session01 #Cannot open db [file.db] in mode [READ_WRITE], db err [14]
 ```
 
 7. To provide better context understanding, consider including the name of the function that calls the current function.
   
-```yaml
+```cpp
 [2023-04-19 12:34:56][DEBUG] - [file.cpp:56 functionA functionThatCallsFunctionA] - user [user01] logged in
 ```
 
 8.  In order to provide better insight into crashes and errors, it is recommended to use call stack print in all cases where crashes occur, as well as in relevant error logs. This can help to identify the source of the problem more easily and provide developers with the information they need to fix the issue quickly.
 
-```yaml
+```cpp
 [2023-04-19 12:34:56][ERROR] - [main.cpp:23 main] - An error occurred: File not found\nCall stack: main.cpp:23 main\n file.cpp:56 functionA\n file.cpp:78 functionB
 ```
 
 9. In order to enhance the comprehensibility and problem-solving capabilities of a program's control flow, it is highly advisable to implement DEBUG or TRACE logs at every switch point, such as function starts and ends, `if` statements, `switch cases`, and `return` statements. This practice enables you to track the direction of control flow in your code and quickly detect any potential errors or issues that arise during development. Additionally, you can select different log levels based on the switch point's importance and relevance to your code.
 
-```yaml
+```cpp
 [2023-04-19 12:34:56][DEBUG] - [file.cpp:56 functionA] - [Started]
 [2023-04-19 12:34:56][WARN] - [file.cpp:78 functionB] - If condition met
 ```
 
 10. To improve the organization and management of log messages, it is advisable to assign a unique identifier to each message. This will help distinguish one message from another and make it easier to track and analyze specific logs when needed.
 
-```yaml
+```cpp
 [LID:1234]
 ```
 
@@ -95,7 +95,7 @@ Additional information for getting the stack or function name that called the cu
 ```
 3. If you choose not to use JSON, avoid printing line breaks in log messages. Instead, replace them with special strings like `^M`, `\n`, etc. or remove them altogether. An example of a log message with line breaks replaced by special strings is:
 
-```yaml
+```cpp
 [2023-04-19 12:34:56][DEBUG] - [main.cpp:23 main] - xml [<xml>^M <field>^M Field data^M </field>^M</xml>]
 ```
 
